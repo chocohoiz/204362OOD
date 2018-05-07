@@ -1,0 +1,311 @@
+<html lang="en">
+<body>
+<app-header-teacher></app-header-teacher>
+  <div class="ui container ctop">
+    <br>
+    <div class="ui grid ">
+      <div class="three wide column">
+        <app-menu-manage></app-menu-manage>
+      </div>
+      <div class="twelve wide column cleft">
+        <div class="right floated left aligned six wide column">
+          <div class="ui padded segment">
+            <h5>การจัดการข้อมูลการทำงาน</h5>
+              <button type="button" class="circular compact icon ui right floated button green" data-toggle="modal" data-target="#addPhase" data-inverted="" data-tooltip="เพิ่มงานหลัก" data-position="left center">
+                  <i class="ui plus alternate icon"></i>
+                </button>
+                <br>
+            <table class="ui selectable fixed celled table">
+              <thead>
+                <tr>
+                  <!-- <th style="width:6%" class="ui center aligned">#</th> -->
+                  <th>ชื่องานหลัก</th>
+                  <th>รายละเอียด</th>
+                  <th style="width:12%" class="ui center aligned">แก้ไข/ลบ</th>
+                  <th style="width:16%" class="ui center aligned">เพิ่ม/ดู งานย่อย</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let data of phaseList | async">
+                  <!-- <td>{{data.key}}</td> -->
+                  <td>{{data.phase_name}}</td>
+                  <td>{{data.phase_detail}}</td>
+                  <td class="ui center aligned single line">
+                    <button type="button" (click)="setData(data)" class="circular compact icon ui button blue" data-toggle="modal" data-target=".manage-phase">
+                      <i class="edit alternate icon"></i>
+                    </button>
+                    <button type="button" (click)="confirm_p(data)" class="circular compact icon ui button red"  data-toggle="modal" data-target="#confirm_p">
+                      <i class="trash alternate icon"></i>
+                    </button>
+                  </td>
+                  <td class="ui center aligned single line">
+                    <button type="button" (click)="setData(data)" class="circular compact icon ui button green" data-toggle="modal" data-target=".add-sub-phase">
+                      <i class="plus alternate icon"></i>
+                    </button>
+                    <button type="button" (click)="setDataSubPhase(data)" class="circular compact icon ui button yellow" data-toggle="modal" data-target=".manage-sub-phase">
+                      <i class="eye alternate icon"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Modal add phase -->
+  <div class="modal fade" id="addPhase" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle"> เพิ่มข้อมูลงานหลัก </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="ui container">
+            <form (ngSubmit)="addData()" class="ui form">
+                <div class="field">
+                  <label for="name"> ชื่องานหลัก</label>
+                  <input type="text" name="phase_name" [(ngModel)]="phase_name">
+                </div>
+                <div class="field">
+                  <label for="name"> รายละเอียด </label>
+                  <input type="text" name="phase_detail" [(ngModel)]="phase_detail">
+                </div>
+              </form>
+          </div>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="ui primary button" (click)="addData()" data-dismiss="modal">ตกลง</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Modal manage sub phase -->
+  <div class="modal fade manage-sub-phase" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">จัดการข้อมูลงานย่อย</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="ui container">
+            <form class="ui form">
+              <table class="ui selectable fixed celled table">
+                <thead>
+                  <tr>
+                    <!-- <th style="width:9%" class="ui center aligned">#</th> -->
+                    <th>ชื่องานย่อย</th>
+                    <th>รายละเอียด</th>
+                    <th style="width:13%" class="ui center aligned">วันที่สั่ง</th>
+                    <th style="width:13%" class="ui center aligned">กำหนดส่ง</th>
+                    <th style="width:13%" class="ui center aligned">แก้ไข/ลบ</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let data of tmpArr">
+                    <!-- <td>{{data.key}}</td> -->
+                    <td>{{data.sub_phase_name}}</td>
+                    <td>{{data.sub_phase_detail}}</td>
+                    <td>{{data.date_assign}}</td>
+                    <td>{{data.date_send}}</td>
+                    <td class="ui center aligned single line">
+                      <button type="button" (click)="setDataSubPhase_edit(data)" [disabled]="!isValidForm(data)" class="circular compact icon ui button blue" data-toggle="modal" data-target=".edit-sub-phase">
+                        <i class="edit alternate icon"></i>
+                      </button>
+                      <button type="button" (click)="confirm_sp(data)" class="circular compact icon ui button red" data-toggle="modal" data-target="#confirm_sp">
+                        <i class="trash alternate icon"></i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </form>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">ปิด</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- Modal add sub phase -->
+  <div class="modal fade add-sub-phase" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">เพิ่มข้อมูลยงานย่อยของ {{p_name}}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="ui container">
+            <form (ngSubmit)="setIDPhase(addForm)" #addForm="ngForm" class="ui form">
+                <!-- <label class="ui large label">  </label> -->
+              <div class="field">
+                <label for="name"> ชื่องานย่อย</label>
+                <input type="text" name="sub_phase_name" [(ngModel)]="sub_phase_name">
+              </div>
+              <div class="field">
+                <label for="name"> วันที่สั่งงาน</label>
+                <input id="date_send" name="date_send" type="text" bsDatepicker class="form-control" [(ngModel)]="date_assign">
+              </div>
+              <div class="field">
+                <label for="name"> กำหนดส่งงาน</label>
+                <input id="date_send" name="date_send" type="text" bsDatepicker class="form-control" [(ngModel)]="date_send">
+              </div>
+              <div class="field">
+                <label for="name"> รายละเอียด </label>
+                <textarea rows="3" class="form-control" id="message-text" type="text" name="sub_phase_detail" [(ngModel)]="sub_phase_detail"></textarea>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">ปิด</button>
+          <button type="button" class="btn btn-primary" (click)="addDataSubPhase()" data-dismiss="modal">เพิ่ม</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Modal edit sub phase -->
+  <div class="modal fade edit-sub-phase" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">แก้ไขข้อมูลงานย่อย</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="ui container">
+            <form class="ui form">
+              <div class="field">
+                <label for="name"> ชื่องานย่อย</label>
+                <input type="text" name="sub_phase_name" ngModel [(ngModel)]="sp_name">
+              </div>
+              <div class="field">
+                <label for="name"> วันที่สั่งงาน</label>
+                <input id="myDate1" name="myDate1" type="text" bsDatepicker class="form-control" [(ngModel)]="sp_date_assign">
+              </div>
+              <div class="field">
+                <label for="name"> กำหนดส่งงาน</label>
+                <input id="myDate2" name="myDate2" type="text" bsDatepicker class="form-control" [(ngModel)]="sp_date_send">
+              </div>
+              <div class="field">
+                <label for="name"> รายละเอียด </label>
+                <input type="text" name="sub_phase_detail" ngModel [(ngModel)]="sp_detail">
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">ปิด</button>
+          <button type="button" class="btn btn-primary" (click)="editDataSubPhase(sp_name,sp_date_assign,sp_date_send,sp_detail)"
+            data-dismiss="modal">บันทึก</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- Modal manage phase -->
+  <div class="modal fade manage-phase" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">แก้ไขข้อมูลงานหลัก</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form (ngSubmit)="setData(setForm)" #setForm="ngForm" class="ui form">
+            <!-- <div>
+              <label class="ui large label"> ลำดับงานหลัก {{p_id}} </label>
+            </div> -->
+            <div class="field">
+              <label for="name"> ชื่องานหลัก</label>
+              <input type="text" name="phase_name" ngModel [(ngModel)]="p_name">
+            </div>
+            <div class="field">
+              <label for="name"> รายละเอียด</label>
+              <input type="text" name="phase_detail" ngModel [(ngModel)]="p_detail">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">ปิด</button>
+          <button type="button" class="btn btn-primary" (click)="editData(p_id,p_name,p_detail)" data-dismiss="modal">บันทึก</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+    <!-- Modal show confirm sub phase -->
+    <div class="modal fade" id="confirm_sp" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLongTitle">ยืนยันการทำรายการ</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              ต้องการลบงานย่อย : {{sp_name}}
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
+              <button type="submit" (click)="delDataSubPhase(key_ps_id)" class="ui primary button" data-dismiss="modal">ตกลง</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+          <!-- Modal show confirm phase -->
+    <div class="modal fade" id="confirm_p" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLongTitle">ยืนยันการทำรายการ</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              ต้องการลบงานหลัก : {{p_name}}
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
+              <button type="submit" (click)="delData(key_p_id)" class="ui primary button" [disabled]="!showme" data-dismiss="modal">ตกลง</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+</body>
+
+</html>

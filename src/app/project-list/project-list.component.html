@@ -1,0 +1,31 @@
+<html>
+
+<body>
+  <app-header-teacher></app-header-teacher>
+  <div class="ui container ctop">
+    <h4 class="ui top attached" align="center">รายชื่อหัวข้อโครงงาน</h4>
+    <hr>
+    <table class="ui selectable fixed celled table">
+      <thead>
+        <tr>
+          <th style="width:5%" class="ui center aligned">#</th>
+          <th style="width:9%" class="ui center aligned">รหัสผู้เรียน</th>
+          <th style="width:18%">ชื่อผู้เรียน</th>
+          <th>ชื่อหัวข้อภาษาไทย</th>
+          <th>ชื่อหัวข้อภาษาอังกฤษ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of objArr">
+          <td class="ui center aligned">{{data.no}}</td>
+          <td class="ui center aligned">{{data.stu_key}}</td>
+          <td>{{data.stu_name}}</td>
+          <td>{{data.pj_name_th}}</td>
+          <td>{{data.pj_name_en}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</body>
+
+</html>

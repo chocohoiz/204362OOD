@@ -1,0 +1,65 @@
+<html lang="en">
+
+<body>
+  <app-header-student></app-header-student>
+
+  <div class="ui container ctop">
+    <div class="ui grid">
+      <div class="four wide column">
+        <app-profile-student></app-profile-student>
+      </div>
+      <div class="ten wide column">
+        <div class="ui segment">
+          <form class="ui form">
+            <div class="field">
+              <label for="name">เลือกงานหลัก</label>
+              <select name="phase" (click)="showme()" [(ngModel)]="selectedPhase" (ngModelChange)="showme($event)" required>
+                <option *ngFor="let data of phaseArr" [ngValue]="data.key">{{data.key}} {{data.phase_name}} </option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="name">เลือกงานย่อย</label>
+              <select name="subphase" placeholder="Select Phase" [disabled]="!showme" [(ngModel)]="selectedSubPhase" required>
+                <option *ngFor="let data of subphaseArr" [ngValue]="data.sub_phase_id">{{data.sub_phase_id}} {{data.sub_phase_name}} </option>
+              </select>
+            </div>
+
+            <div class="inline field">
+              <label for="name">เลือกไฟล์งาน</label>
+              <label class="btn btn-default">
+                <input type="file" (change)="selectFile($event)">
+              </label>
+            </div>
+
+            <div class="field">
+              <label for="name">แสดงความคิดเห็น</label>
+              <textarea rows="2" type="text" name="comment_student" [(ngModel)]="comment_stu" placeholder="เพิ่มคำอธิบาย"></textarea>
+            </div>
+
+            <!-- <div *ngIf="currentFileUpload">
+        <div class="ui indicating progress" data-value="1" data-total="200" id="example5">
+          <div class="progress bar progress-bar progress-bar-animated" [ngStyle]="{'width':progress?.percentage + '%'}"></div>
+        </div>
+        Progress: {{currentFileUpload?.name}} | {{progress?.percentage}}% Complete
+      </div> -->
+
+            <div *ngIf="currentFileUpload" class="progress" style="width:400px">
+              <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" attr.aria-valuenow="{{progress.percentage}}"
+                aria-valuemin="0" aria-valuemax="100" [ngStyle]="{width:progress.percentage+'%'}">
+                {{progress.percentage}}%</div>
+            </div>
+
+            <div>
+              <button class="btn btn-success" [disabled]="!selectedFiles" (click)="upload()">ส่งงาน</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</body>
+
+</html>

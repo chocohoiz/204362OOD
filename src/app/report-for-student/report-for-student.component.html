@@ -1,0 +1,27 @@
+<html lang="en">
+<body>
+  <app-header-student></app-header-student>
+  <div class="ui container ctop">
+    <div class="ui grid">
+      <div class="eight wide column">
+        <h5>
+          <i class="ui user icon mycolor"></i>{{stu_key}} | {{stu_name}}
+        </h5>
+        <h5>
+          <i class="pencil alternate icon mycolor"></i>โครงงานที่สนใจ :: {{myPJ_name_th}}
+        </h5>
+      </div>
+      <div class="eight wide column ui right aligned">
+        <div>
+          <b class="sty1">สถานะการส่งงาน :</b> ส่ง = 2 | ส่งช้า = 1 | ไม่ส่ง = 0
+        </div>
+        <div>
+          <b class="sty2">สถานะการตรวจงาน :</b> ผ่าน = 2 | ไม่ผ่าน = 1 | ไม่ตรวจ = 0
+        </div>
+      </div>
+    </div>
+    <p-chart type="line" width="400" height="400" [data]="data" (onDataSelect)="selectData($event)" [options]="options"></p-chart>
+  </div>
+
+</body>
+</html>

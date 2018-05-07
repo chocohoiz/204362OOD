@@ -1,0 +1,116 @@
+<html lang="en">
+<app-header-teacher></app-header-teacher>
+
+<body>
+  <div class="ui container ctop">
+    <br>
+    <h4 align="center">เลือกมุมมองในการตรวจ</h4>
+    <hr>
+    <div class="ui grid sub-g">
+      <div class="eight wide column">
+        <h5 align="center">มุมมองส่วนของงาน</h5>
+        <table class="ui selectable celled violet table">
+          <thead>
+            <tr>
+              <th>ชื่องานหลัก</th>
+              <th style="width:25%" class="ui center aligned">เลือกงานย่อย</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of phaseList | async">
+              <td>{{data.phase_name}}</td>
+              <td class="ui center aligned single line">
+                <button *ngIf="edited"  type="button" (click)="showme(data)" class="ui small green button" (click)="showme(data)" data-toggle="modal" data-target=".select-sub-phase">เลือก</button>
+                <!-- <button type="button" (click)="showme(data)" class="ui small green button" [disabled]="!isValidForm" (click)="showme(data)" data-toggle="modal" data-target=".select-sub-phase">เลือก</button> -->
+                <!-- <div  class="ui small blue animated button" (click)="showme(data)" data-toggle="modal" data-target=".select-sub-phase" tabindex="0">
+                  <div class="visible content">เลือก</div>
+                  <div class="hidden content">
+                    <i class="chevron right icon"></i>
+                  </div>
+                </div> -->
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+
+      </div>
+
+      <!-- /////////////////////////////////////////////////////////// -->
+      <div class="eight wide column">
+        <h5 align="center">มุมมองส่วนของผู้เรียนแต่ละคน</h5>
+        <table class="ui selectable celled violet table">
+          <thead>
+            <tr>
+              <th>รหัสผู้เรียน</th>
+              <th>ชื่อผู้เรียน</th>
+              <th style="width:25%" class="ui center aligned">เลือกผู้เรียน</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of studentList | async">
+              <td>{{data.key}}</td>
+              <td>{{data.student_name}}</td>
+              <td class="ui center aligned single line">
+                <!-- <button type="button" (click)="selectStudent(data)" class="ui green button">เลือก</button> -->
+                <div class="ui small blue animated button" (click)="selectStudent(data)">
+                  <div class="visible content">เลือก</div>
+                  <div class="hidden content">
+                    <i class="chevron right icon"></i>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Modal select sub phase -->
+  <div class="modal fade select-sub-phase"  tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle"> เลือกงานย่อย </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="ui container">
+            <form (ngSubmit)="selectPhase()" class="ui form">
+              <table class="ui selectable celled violet table">
+                <thead>
+                  <tr>
+                    <th>ชื่องานย่อย</th>
+                    <th>เลือก</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let data of subphaseArr">
+                    <td>{{data.sub_phase_name}}</td>
+                    <td>
+                      <button type="button" (click)="selectPhase(data)" data-dismiss="modal" class="ui blue button">ไป</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </form>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+</body>
+
+</html>

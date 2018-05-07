@@ -1,0 +1,23 @@
+.ctop {
+  margin-top: 50px;
+}
+
+.cleft {
+  margin-left: 30px;
+}
+
+.cright {
+  margin-right: 30px;
+}
+
+.Pass {
+  color: green;
+}
+
+.Failed {
+  color: red;
+}
+
+.No {
+  color: white;
+}

@@ -1,0 +1,58 @@
+<html lang="en">
+<body>
+  <app-header-teacher></app-header-teacher>
+  <div class="ui top attached" align="center">select Phase or Student</div>
+  <div class="ui container">
+    <div class="ui two column middle aligned very relaxed stackable grid">
+      <div class="column Mymargin1">
+        <h4 class="ui top attached" align="center">รายงานแบบภาพรวมของงานย่อย</h4>
+        <div class="ui padded segment">
+          <form class="ui form">
+            <div class="field">
+              เลือกงานหลัก
+              <select name="phase" (click)="showme()" [(ngModel)]="selectedPhase" (ngModelChange)="showme($event)" required>
+                <option *ngFor="let data of phaseArr" [ngValue]="data.key">{{data.phase_name}} </option>
+              </select>
+            </div>
+
+            <div class="field">
+              เลือกงานย่อย
+              <select name="subphase" placeholder="Select Phase" [disabled]="!showme" [(ngModel)]="selectedSubPhase" required>
+                <option *ngFor="let data of subphaseArr" [ngValue]="data.key">{{data.sub_phase_name}} </option>
+              </select>
+            </div>
+
+            <div>
+              <button class="btn btn-success" (click)="selectPhase()">ตกลง</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="column Mymargin2">
+        <h4 class="ui top attached" align="center">รายงานแบบภาพรวมของผู้เรียน</h4>
+        <div class="ui padded segment">
+          <form class="ui form">
+            <div class="field">
+              เลือกผู้เรียน
+              <select name="student" [(ngModel)]="selectedStudent" required>
+                <option *ngFor="let data of studentArr" [ngValue]="data.key"> {{data.key}} | {{data.student_name}} </option>
+              </select>
+            </div>
+
+            <div>
+              <button class="btn btn-success" (click)="selectStudent()">ตกลง</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="ui vertical divider">
+      Or
+    </div>
+  </div>
+
+
+</body>
+
+</html>

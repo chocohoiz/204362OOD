@@ -1,0 +1,108 @@
+<html lang="en">
+
+<body>
+    <app-header-teacher></app-header-teacher>
+  <div class="ui container ctop">
+    <br>
+    <h5><i class="user icon mycolor"></i>{{stu_key}} |  {{stu_name}}</h5>
+    <h5><i class="pencil alternate icon mycolor"></i>โครงงานที่สนใจ : {{myPJ_name_th}}</h5>
+    <hr>
+    <table class="ui selectable celled table violet">
+      <thead>
+        <tr>
+          <th>ชื่องาน</th>
+          <th>ดาวน์โหลดไฟล์งาน</th>
+          <th>วันที่ส่งงาน</th>
+          <th>สถานะการส่งงาน</th>
+          <th>ผลการตรวจ</th>
+          <th>ตรวจ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of statusArr">
+          <td>{{data.subphase_name}}</td>
+          <td>
+            <a href="{{data.url}}">{{data.file_name}}</a>
+          </td>
+          <td>{{data.date_send}}</td>
+          <td>{{data.status_send}}</td>
+          <td>{{data.status_result}}</td>
+          <td>
+            <button type="button" (click)="setData(data)" class="ui blue button" data-toggle="modal" data-target="#checkwork">
+              ตรวจ
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+  <!-- Modal -->
+  <div class="modal fade modal-fullscreen" id="checkwork" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">ตรวจ</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form (ngSubmit)="setData(setForm)" #setForm="ngForm" class="ui form">
+            <div class="ui form">
+              <div>
+                <label class="field">ความคิดเห็นผู้เรียน</label>
+                {{ment_student}}
+              </div>
+              <div class="inline fields">
+                <label> ผลการตรวจ</label>
+                <div class="field">
+                  <div class="ui radio checkbox">
+                    <input type="radio" name="result" [(ngModel)]="result" tabindex="0" value="Pass" required>
+                    <label>ผ่าน</label>
+                  </div>
+                </div>
+                <div class="field">
+                  <div class="ui radio checkbox">
+                    <input type="radio" name="result" [(ngModel)]="result" tabindex="0" value="Failed" required>
+                    <label>ไม่ผ่าน</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="field">
+              <label> ความคิดเห็นของผู้สอน </label>
+              <textarea rows="2" type="text" name="comment_teacher" [(ngModel)]="comment_teacher" placeholder="เพิ่มคำอธิบาย"></textarea>
+            </div>
+          </form>
+
+          <!-- <div>
+            <label>PDF src</label>
+            <input (change)="onFileSelected()" type="file" id="file">
+            <div class="ui input focus">
+              <input [(ngModel)]="page" type="text" id="page">
+            </div>
+          </div>
+          <pdf-viewer
+          [src]="pdfSrc"
+          [render-text]="true"
+          [page]="page"
+          [show-all]="true"
+          style="display: block;">
+        </pdf-viewer> -->
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" (click)="saveData(setForm)" data-dismiss="modal">บันทึก</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<br>
+</body>
+
+</html>

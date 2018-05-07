@@ -1,0 +1,81 @@
+<html lang="en">
+
+<body>
+  <app-header-student></app-header-student>
+  <div class="ui container ctop">
+    <div class="ui grid ">
+      <div class="four wide column">
+        <app-profile-student></app-profile-student>
+      </div>
+      <div class="ten wide column">
+        <div class="ui padded segment">
+          <form #setForm="ngForm" class="ui form">
+            <!-- <div *ngFor="let data of tmpArr">
+            <label class="ui large label" >รหัสโครงงาน {{data.project_id}}</label>
+          </div> -->
+
+            <div class="field">
+              <label for="name"> ชื่อ-สกุล</label>
+              <input type="text" name="student_name" [(ngModel)]="stu_name">
+            </div>
+            <div class="field">
+              <label for="name"> รหัสผ่าน</label>
+              <button type="submit" class="ui button" (click)="clear()" data-toggle="modal" data-target="#edit_pass">แก้ไข</button>
+              <!-- <input type="text" name="password" [(ngModel)]="stu_pass"> -->
+            </div>
+            <div class="field">
+              <label>ชื่อโครงงานภาษาไทย</label>
+              <textarea rows="2" type="text" name="name_th" placeholder="Name Thai" [(ngModel)]="name_th"></textarea>
+            </div>
+            <div class="field">
+              <label>ชื่อโครงงานภาษาอังกฤษ</label>
+              <textarea rows="2" type="text" name="name_en" placeholder="Name English" [(ngModel)]="name_en"></textarea>
+            </div>
+            <button type="submit" class="ui blue button" (click)="addData()">ตกลง</button>
+          </form>
+        </div>
+      </div>
+
+
+
+    </div>
+  </div>
+
+  <!-- Modal show confirm -->
+  <div class="modal fade" id="edit_pass" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">แก้ไขรหัสผ่าน</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form class="ui form">
+            <div class="field">
+              <label for="name">รหัสผ่านเดิม</label>
+              <input type="password" name="old_pass" ngModel [(ngModel)]="old_pass">
+            </div>
+            <hr>
+            <div class="field">
+              <label for="name">รหัสผ่านใหม่</label>
+              <input type="password" name="new_pass" ngModel [(ngModel)]="new_pass">
+            </div>
+            <div class="field">
+                <label for="name">ยืนยันรหัสผ่านใหม่</label>
+                <input type="password" name="new_pass" ngModel [(ngModel)]="re_new_pass">
+              </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
+          <button type="submit" (click)="change_password()" class="ui primary button" data-dismiss="modal">ตกลง</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+
+</html>

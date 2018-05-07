@@ -1,0 +1,122 @@
+<html lang="en">
+
+<body>
+<app-header-student></app-header-student>
+  <div class="ui container ctop">
+    <br>
+    <div class="ui grid ">
+      <div class="four wide column">
+        <app-profile-student></app-profile-student>
+      </div>
+      <div>
+        <form>
+        <table class="ui selectable celled table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>ชื่องาน</th>
+              <th>ดาวน์โหลดไฟล์งาน</th>
+              <th>วันที่ส่งงาน</th>
+              <th>สถานะการส่งงาน</th>
+              <th>ผลการตรวจ</th>
+              <th>แก้ไข</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of statusArr">
+              <td>{{data.key[4]}}{{data.key[5]}}{{data.key[6]}}{{data.key[7]}}</td>
+              <td>{{data.subphase_name}}</td>
+              <td>
+                <a href="{{data.url}}">{{data.file_name}}</a>
+              </td>
+              <td>{{data.date_send}}</td>
+              <td>{{data.status_send}}</td>
+              <td>
+                <!-- <div  style="display:none" class="ui label" ng-class="style">
+                    {{data.status_result}}
+              </div> -->
+              <button (click)="setDataComment(data)" type="button" class="circular mini compact icon ui right floated button" data-toggle="modal" data-target="#commentteacher"
+              data-inverted="" [disabled]="!isValidCommentTeacher(data.status_send)">
+                <i class="ui info icon"></i>
+              </button>
+                  {{data.status_result}}
+              </td>
+              <td>
+                <!-- <button type="button" (click)="setData(data)" class="ui button" data-toggle="modal" data-target="#history">
+                  แก้ไข
+                </button> -->
+                <button type="button" class="ui small button"
+                [disabled]="!isValidForm(data.status_send, data.status_result)"
+                (click)="setData(data)"
+                data-toggle="modal" data-target="#history">แก้ไข</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        </form>
+      </div>
+    </div>
+  </div>
+
+<div class="modal fade" id="history" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">แก้ไข {{subp_name}}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form (ngSubmit)="setData()">
+            <div>
+              เลือกไฟล์งาน
+              <label class="btn btn-default">
+                <input type="file" (change)="selectFile($event)">
+              </label>
+            </div>
+            <div class="field">
+              แสดงความคิดเห็น
+              <br>
+              <textarea class="form-control" rows="2" type="text" name="comment_student" [(ngModel)]="ment_student" placeholder="เพิ่มคำอธิบาย"></textarea>
+            </div>
+            <div *ngIf="currentFileUpload" class="progress" style="width:400px">
+              <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" attr.aria-valuenow="{{progress.percentage}}"
+                aria-valuemin="0" aria-valuemax="100" [ngStyle]="{width:progress.percentage+'%'}">
+                {{progress.percentage}}%</div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">ปิด</button>
+          <button class="btn btn-success" [disabled]="!selectedFiles" (click)="upload()">Upload</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- show comment teacher -->
+  <div class="modal fade" id="commentteacher" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">ความคิดเห็นของผู้สอน</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form (ngSubmit)="setDataComment()">
+              {{comment_teacher}}
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">ปิด</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+</body>
+
+</html>

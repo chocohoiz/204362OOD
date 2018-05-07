@@ -1,0 +1,32 @@
+.yes {
+  color: red;
+}
+
+.no {
+  color: palegreen;
+}
+
+.style1 {
+  font-family: verdana;
+  font-size: 20px;
+}
+
+.style2 {
+  color: red;
+  text-align: center;
+}
+
+.ctop {
+  margin-top: 50px;
+}
+
+.cleft {
+  margin-left: 40px;
+}
+
+.mycolor {
+  color: #270665;
+}
+
+
+

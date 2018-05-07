@@ -1,0 +1,98 @@
+<html lang="en">
+
+<body>
+  <app-header-teacher></app-header-teacher>
+  <div class="ui container ctop">
+
+    <h4 class="ui top attached" align="center">{{p_name}} :: {{sp_name}}</h4>
+    <hr>
+
+    <div class="ui grid">
+      <div class="eight wide column">
+        <h5 class="ui top attached" align="center">สัดส่วนของการส่งงาน</h5>
+        <hr>
+        <p-chart type="pie" [data]="data"></p-chart>
+        <br>
+        <div class="ui grid">
+          <div class="six wide column color-sent" align="right">
+            <h3>
+              {{this.numSent}} คน
+            </h3>
+            <hr>
+            <h3>
+              <b>{{percent_sent| number: '1.2-2'}}%</b>
+            </h3>
+            <h3>
+              <b>SENT</b>
+            </h3>
+            ส่งงานภายในกำหนด
+          </div>
+          <div class="four wide column color-late" align="center">
+            <h3>
+              {{this.numLate}} คน
+            </h3>
+            <hr>
+            <h3>
+              <b>{{percent_late| number: '1.2-2'}}%</b>
+            </h3>
+            <h3>
+              <b>LATE</b>
+            </h3>
+            ส่งงานช้ากว่ากำหนด
+          </div>
+          <div class="six wide column color-no1" align="left">
+            <h3>
+              {{this.numNo}} คน
+            </h3>
+            <hr>
+            <h3>
+              <b>{{percent_no1| number: '1.2-2'}}%</b>
+            </h3>
+            <h3>
+              <b>NO</b>
+            </h3>
+            ไม่ได้ส่งงาน
+          </div>
+        </div>
+      </div>
+      <div class="eight wide column">
+        <h5 class="ui top attached" align="center">สัดส่วนของผลการตรวจงาน</h5>
+        <hr>
+        <p-chart type="pie" [data]="data1"></p-chart>
+        <br>
+        <div class="ui grid">
+          <div class="eight wide column color-pass" align="right">
+            <h3>
+              {{this.resultPass}} คน
+            </h3>
+            <hr>
+            <h3>
+              <b>{{percent_pass| number: '1.2-2'}}%</b>
+            </h3>
+            <h3>
+              <b>PASS</b>
+            </h3>
+            ผ่าน
+          </div>
+          <div class="eight wide column color-failed" align="left">
+            <h3>
+              {{this.resultFailed}} คน
+            </h3>
+            <hr>
+            <h3>
+              <b>{{percent_failed| number: '1.2-2'}}%</b>
+            </h3>
+            <h3>
+              <b>FAILED</b>
+            </h3>
+            ไม่ผ่าน
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</body>
+
+</html>

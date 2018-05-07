@@ -1,0 +1,6 @@
+{
+  "projects": {
+    "default": "mytest-db",
+    "staging": "tracking-system-ood"
+  }
+}

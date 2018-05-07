@@ -1,0 +1,157 @@
+<html lang="en">
+
+<body>
+  <app-header-teacher></app-header-teacher>
+  <div class="ui container ctop">
+    <br>
+    <div class="ui grid">
+      <div class="three wide column">
+        <app-menu-manage></app-menu-manage>
+      </div>
+      <div class="twelve wide column cleft">
+        <div class="right floated left aligned six wide column">
+          <div class="ui padded segment">
+            <h5>การจัดการข้อมูลผู้เรียน</h5>
+            <br>
+            <input type="file" style="display: inline-block;" (change)="incomingfile($event)" placeholder="Upload file" accept=".xlsx">
+            <button type="button" class="btn btn-info" (click)="Upload()" data-toggle="modal" data-target="#showDataFromExcel">เพิ่ม</button>
+
+            <button type="button" class="circular compact icon ui right floated button green" data-toggle="modal" data-target="#addStudent"
+              data-inverted="" data-tooltip="เพิ่มผู้เรียน" data-position="left center" (click)="clear()" >
+              <i class="ui plus alternate icon"></i>
+            </button>
+            <br>
+            <table class="ui selectable fixed celled table">
+              <thead>
+                <tr>
+                  <th>รหัสผู้เรียน</th>
+                  <th>ชื่อ-สกุลผู้เรียน</th>
+                  <!-- <th>รหัสผ่าน</th> -->
+                  <th style="width:18%">รหัสโครงงาน</th>
+                  <th style="width:13%" class="ui center aligned">แก้ไข/ลบ</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let data of wikiList | async">
+                  <td>{{data.key}}</td>
+                  <td>{{data.student_name}}</td>
+                  <!-- <td>{{data.password}}</td> -->
+                  <td>{{data.project_id}}</td>
+                  <td class="ui center aligned single line">
+                    <button type="button" (click)="setData(data)" class="circular compact icon ui button blue" data-toggle="modal" data-target="#editData">
+                      <i class="edit alternate icon"></i>
+                    </button>
+                    <button type="button" (click)="confirm(data)" class="circular compact icon ui button red" data-toggle="modal" data-target="#confirm">
+                      <i class="trash alternate icon"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="editData" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">แก้ไขข้อมูลผู้เรียน รหัส {{stu_id}}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form (ngSubmit)="setData(setForm)" #setForm="ngForm" class="ui form">
+            <!-- <div class="field">
+              <div class="ui large label"> รหัสผู้เรียน : {{stu_id}} </div>
+            </div> -->
+            <div class="field">
+              <label for="name"> ชื่อ-สกุล</label>
+              <input type="text" name="student_name" [(ngModel)]="stu_name">
+            </div>
+            <!-- <div class="field">
+              <label for="name"> รหัสผ่าน</label>
+              <input type="text" name="password" [(ngModel)]="stu_pass">
+            </div> -->
+            <!-- <div class="field">
+              <label for="name"> รหัสโครงงาน</label>
+              <input type="text" name="project_id" [(ngModel)]="pj_id">
+            </div> -->
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" (click)="editData(stu_id,stu_name,stu_pass,pj_id)" data-dismiss="modal">บันทึก</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Modal add student -->
+  <div class="modal fade" id="addStudent" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">เพิ่มข้อมูลผู้เรียน</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form (ngSubmit)="addData()" class="ui form">
+            <div class="field">
+              <label for="name"> รหัสนักศึกษา</label>
+              <input type="text" name="student_id" [(ngModel)]="student_id">
+            </div>
+            <div class="field">
+              <label for="name"> ชื่อ-สกุล</label>
+              <input type="text" name="student_name" [(ngModel)]="student_name">
+            </div>
+            <!-- <div class="field">
+              <label for="name"> รหัสผ่าน</label>
+              <input type="text" name="password" [(ngModel)]="password">
+            </div> -->
+            <!-- <div class="field">
+                      <label for="name"> รหัสโครงงาน</label>
+                      <input type="text" name="project_id" [(ngModel)]="project_id">
+                    </div> -->
+            <!-- <button type="submit" class="ui primary button">ตกลง</button> -->
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" (click)="addData()" class="ui primary button" data-dismiss="modal">ตกลง</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal show confirm -->
+  <div class="modal fade" id="confirm" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">confirm</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          ต้องการลบชื่อผู้ใช้ : {{student_id}}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
+          <button type="submit" (click)="delData(student_id)" class="ui primary button" data-dismiss="modal">ตกลง</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+
+</html>

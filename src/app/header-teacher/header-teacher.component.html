@@ -1,0 +1,16 @@
+<div class="ui violet inverted huge borderless main menu fixed" style="position: fixed; top: 0px; left: auto; z-index: 10;">
+  <div class="ui  container">
+    <div href="#" class="header item">
+      OOD
+    </div>
+    <a href="#" class="item" [routerLink]="'/Project-List'" routerLinkActive="active">โครงงาน</a>
+    <a href="#" class="item" [routerLink]="'/checkWork'" routerLinkActive="active">ตรวจงาน</a>
+    <a href="#" class="item" [routerLink]="'/report'" routerLinkActive="active">รายงาน</a>
+    <a href="#" class="item" [routerLink]="'/ManagePhase'" routerLinkActive="active">การจัดการข้อมูล</a>
+
+    <div class="right menu">
+      <a class="item" >{{key}}</a>
+      <a class="item" (click)="logout()"> <i class="power off icon"></i>Logout</a>
+    </div>
+  </div>
+</div>
